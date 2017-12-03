@@ -65,41 +65,39 @@ namespace lancuch_bialek
             return param;
         }
 
-        // porównanie łańcucha po kompilacji i wzorcowego
+        // porównanie ilosci komkretnych znakow w s1 i s2
         public static bool CzyMozeZamienic(string s1, string s2)
         {
-            char[] s1tablica = s1.ToArray();
-            char[] s2tablica = s2.ToArray();
-
-            char pomocnik;
-            for (int i = 0; i < s1tablica.Length - 1; i++)
+            var liczba = 'T' - 'A' + 1;
+            var licznik1 = Enumerable.Repeat(0, liczba).ToList();
+            var licznik2 = Enumerable.Repeat(0, liczba).ToList();
+            //zliczmy litery dla s1
+            foreach (var litera in s1) 
             {
-                while (s1tablica[i] != s2tablica[i])
+                if (litera>='A' && litera <='T')
                 {
-                    pomocnik = s1tablica[i];
-                    s1tablica[i] = s2tablica[i];
-                    int j = i + 1;
-                    while (s2tablica[i] != s1tablica[j])
-                    {
-                        if (j < s1tablica.Length - 1)
-                        {
-                            j++;
-                        }
-                        break;
-                    }
-                    s1tablica[j] = pomocnik;
+                    licznik1[litera - 'A'] += 1;
                 }
             }
-            // dwa łańcuchy po zmianach:
-            string s1a = new string(s1tablica).Trim();
-            string s2b = new string(s2tablica).Trim();
-            Console.WriteLine(s1a);
-            Console.WriteLine(s2b);
-            if (s1a == s2b)
+            //zliczmy litery dla s2
+            foreach (var litera in s2)
             {
-                return true;
+                if (litera >= 'A' && litera <= 'T')
+                {
+                    licznik2[litera - 'A'] += 1;
+                }
             }
-            return false;
+            // porównujemy dwie listy do siebie , jesli ok zwracamy ture
+            bool wynik = true;
+            for (int i = 0; i < 20; i++)
+            {
+                if (licznik1[i] != licznik2[i])
+                {
+                    wynik= false;
+                    break;
+                }
+            }
+            return wynik;
         }
     }
 }
